@@ -1,7 +1,7 @@
 #ifndef STK_FENWICK
 # define STK_FENWICK
 
-#include <functional>
+# include <functional>
 
 namespace StK {
 
