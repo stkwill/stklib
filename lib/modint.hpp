@@ -1,5 +1,5 @@
-#ifndef STK_MODINT
-# define STK_MODINT
+#ifndef _STK_MODINT_HPP
+# define _STK_MODINT_HPP
 
 namespace StK {
 

@@ -1,5 +1,5 @@
-#ifndef STK_FENWICK
-# define STK_FENWICK
+#ifndef _STK_FENWICK_HPP
+# define _STK_FENWICK_HPP
 
 # include <functional>
 
