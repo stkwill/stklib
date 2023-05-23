@@ -20,8 +20,8 @@ class Fenwick {
     ~Fenwick() { delete[] data; }
 
     template <typename AddType>
-    Fenwick &add(size_t i, AddType v) { while (i <= size) data[i] += v, i += i & -i; return *this; }
-    Type sum(size_t i) { Type ans(*data); while (i) ans += data[i], i &= i - 1; return ans; }
+    Fenwick &add(size_t i, AddType v) { while (i <= size) data[i] = PlusOper()(data[i], v), i += i & -i; return *this; }
+    Type sum(size_t i) { Type ans(*data); while (i) ans = PlusOper()(ans, data[i]), i &= i - 1; return ans; }
 
 };
 
