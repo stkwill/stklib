@@ -5,23 +5,21 @@
 
 namespace StK {
 
-template <class Type, class PlusOper = std::plus<Type> >
+template <class Type, class PlusOper = std::plus<Type>, class Sequence = std::vector<Type> >
 class Fenwick {
 
    protected:
     size_t size;
-    Type *data;
+    Sequence data;
 
    public:
     template <class... Args>
       Fenwick(size_t size, Args... args)
-      : size(size), data(new Type[size + 1](args...)) {}
-
-    ~Fenwick() { delete[] data; }
+      : size(size), data(size + 1, Type(args...)) {}
 
     template <typename AddType>
     Fenwick &add(size_t i, AddType v) { while (i <= size) data[i] = PlusOper()(data[i], v), i += i & -i; return *this; }
-    Type sum(size_t i) { Type ans(*data); while (i) ans = PlusOper()(ans, data[i]), i &= i - 1; return ans; }
+    Type sum(size_t i) { Type ans(data.front()); while (i) ans = PlusOper()(ans, data[i]), i &= i - 1; return ans; }
 
 };
 
