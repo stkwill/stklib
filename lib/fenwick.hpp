@@ -1,5 +1,5 @@
-#ifndef _STK_FENWICK_HPP
-# define _STK_FENWICK_HPP
+#ifndef _STKLIB_FENWICK_HPP
+# define _STKLIB_FENWICK_HPP
 
 # include <functional>
 

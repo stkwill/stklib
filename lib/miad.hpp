@@ -1,5 +1,5 @@
-#ifndef _STK_MIAD_HPP
-# define _STK_MIAD_HPP
+#ifndef _STKLIB_MIAD_HPP
+# define _STKLIB_MIAD_HPP
 
 namespace StK {
 
