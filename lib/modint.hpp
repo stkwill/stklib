@@ -21,10 +21,10 @@ class ModInt {
     
     ModInt() : x(0) {}
     ModInt(Type c) : x(c) {}
-    explicit operator Type() { return x; }
-    explicit operator bool() { return x != 0; }
-    bool operator!() { return x == 0; }
-    Type &data() { return x; }
+    explicit operator Type() const { return x; }
+    explicit operator bool() const { return x != 0; }
+    bool operator!() const { return x == 0; }
+    Type &data() const { return x; }
     template <typename ProType>
     ModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
     template <typename ProType = Type>
@@ -36,24 +36,24 @@ class ModInt {
     friend ModInt &operator-=(ModInt &a, ModInt b) { return (a.x -= b.x) < 0 ? a.x += P, a : a; }
     friend ModInt &operator*=(ModInt &a, ModInt b) { return a.x = MulType(a.x) * b.x % P, a; }
     template <typename ExpType>
-    ModInt pow(ExpType Exp) { ModInt Base(*this), Ret(Exp & 1 ? Base : ModInt(1));
-                              while (Exp >>= 1) if (Base *= Base, Exp & 1) Ret *= Base; return Ret; }
+    ModInt pow(ExpType Exp) const { ModInt Base(*this), Ret(Exp & 1 ? Base : ModInt(1));
+                                    while (Exp >>= 1) if (Base *= Base, Exp & 1) Ret *= Base; return Ret; }
     template <typename ExpType>
     ModInt &pows(ExpType Exp) { return *this = pow(Exp); }
-    ModInt inv() { return pow(P - 2); }
+    ModInt inv() const { return pow(P - 2); }
     ModInt &invs() { return pows(P - 2); }
-    friend ModInt operator~(ModInt x) { return x.inv(); }
+    friend ModInt operator~(const ModInt x) { return x.inv(); }
     friend ModInt operator/(ModInt a, ModInt b) { return a * ~b; }
     friend ModInt &operator/=(ModInt &a, ModInt b) { return a *= ~b; }
     friend ModInt &operator++(ModInt &a) { return a += 1; }
     friend ModInt &operator--(ModInt &a) { return a -= 1; }
     friend ModInt operator++(ModInt &a, int) { ModInt Tmp = a; return a += 1, Tmp; }
     friend ModInt operator--(ModInt &a, int) { ModInt Tmp = a; return a -= 1, Tmp; }
-    friend ModInt operator+(ModInt a) { return a; }
-    friend ModInt operator-(ModInt a) { return 0 - a; }
-    bool operator==(ModInt a) { return x == Type(a); }
-    bool operator!=(ModInt a) { return x != Type(a); }
-    friend bool operator<(ModInt a, ModInt b) { return a.x < b.x; }
+    friend ModInt operator+(const ModInt a) { return a; }
+    friend ModInt operator-(const ModInt a) { return 0 - a; }
+    bool operator==(const ModInt a) const { return x == Type(a); }
+    bool operator!=(const ModInt a) const { return x != Type(a); }
+    friend bool operator<(const ModInt a, const ModInt b) { return a.x < b.x; }
 
 # ifdef _GLIBCXX_ISTREAM
 
@@ -78,7 +78,7 @@ class ModInt {
 
     template <typename _CharT, class _Traits>
     friend std::basic_ostream<_CharT, _Traits>&
-    operator<<(std::basic_ostream<_CharT, _Traits> &out_stream, ModInt a) {
+    operator<<(std::basic_ostream<_CharT, _Traits> &out_stream, const ModInt a) {
         return out_stream << a.x;
     }
 
