@@ -17,8 +17,8 @@ class Fenwick {
       Fenwick(size_t size, Args... args)
       : size(size), data(size + 1, Type(args...)) {}
 
-    template <typename AddType>
-    Fenwick &add(size_t i, AddType v) { while (i <= size) data[i] = PlusOper()(data[i], v), i += i & -i; return *this; }
+    Fenwick &add(size_t i, Type v) { while (i <= size) data[i] = PlusOper()(data[i], v), i += i & -i; return *this; }
+
     Type sum(size_t i) { Type ans(data.front()); while (i) ans = PlusOper()(ans, data[i]), i &= i - 1; return ans; }
 
 };
