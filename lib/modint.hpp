@@ -28,7 +28,7 @@ class ModInt {
     template <typename ProType>
     ModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
     template <typename ProType = Type>
-    Protected<Type> protect() { return *this; }
+    Protected<ProType> protect() { return *this; }
     friend ModInt operator+(ModInt a, ModInt b) { return (a.x += b.x) >= P ? a.x - P : a.x; }
     friend ModInt operator-(ModInt a, ModInt b) { return (a.x -= b.x) < 0 ? a.x + P : a.x; }
     friend ModInt operator*(ModInt a, ModInt b) { return MulType(a.x) * b.x % P; }
