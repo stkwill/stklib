@@ -24,7 +24,7 @@ class ModInt {
     explicit operator Type() const { return x; }
     explicit operator bool() const { return x != 0; }
     bool operator!() const { return x == 0; }
-    Type &data() const { return x; }
+    Type &data() { return x; }
     template <typename ProType>
     ModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
     template <typename ProType = Type>
