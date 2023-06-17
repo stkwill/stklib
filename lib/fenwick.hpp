@@ -2,6 +2,7 @@
 # define _STKLIB_FENWICK_HPP
 
 # include <functional>
+# include <vector>
 
 namespace StK {
 
