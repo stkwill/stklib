@@ -3,12 +3,7 @@
 
 namespace StK {
 
-#ifdef _STKLIB_MODINT_P_TYPE
-_STKLIB_MODINT_P_TPYE P;
-template <typename Type, typename MulType = Type>
-#else
 template <typename Type, Type P, typename MulType = Type>
-#endif
 class ModInt {
 
    protected:
