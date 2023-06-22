@@ -23,12 +23,25 @@ inline Type1 &mad(Type1 &x, const Type2 y, const Args... args) {
     return mad(mad(x, y), args...);
 }
 
-# ifdef _GLIBCXX_ALGORITHM
+template <typename Type1, typename Type2>
+inline Type1 min(const Type1 x, const Type2 y) {
+    return x < y ? x : y;
+}
 
-using std::min;
-using std::max;
+template <typename Type1, typename Type2>
+inline Type1 mad(const Type1 x, const Type2 y) {
+    return x > y ? x : y;
+}
 
-# endif
+template <typename Type1, typename Type2, typename... Args>
+inline Type1 min(const Type1 x, const Type2 y, const Args... args) {
+    return min(min(x, y), args...);
+}
+
+template <typename Type1, typename Type2, typename... Args>
+inline Type1 max(const Type1 x, const Type2 y, const Args... args) {
+    return max(max(x, y), args...);
+}
 
 } // namespace StK
 
