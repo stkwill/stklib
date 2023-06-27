@@ -29,7 +29,7 @@ inline Type1 min(const Type1 x, const Type2 y) {
 }
 
 template <typename Type1, typename Type2>
-inline Type1 mad(const Type1 x, const Type2 y) {
+inline Type1 max(const Type1 x, const Type2 y) {
     return x > y ? x : y;
 }
 
