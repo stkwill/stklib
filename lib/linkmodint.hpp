@@ -29,22 +29,26 @@ class LinkModInt {
     LinkModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
     template <typename ProType = Type>
     Protected<ProType> protect() { return *this; }
-    friend LinkModInt operator+(LinkModInt a, LinkModInt b) { return (a.x += b.x) >= P ? a.x - P : a.x; }
-    friend LinkModInt operator-(LinkModInt a, LinkModInt b) { return (a.x -= b.x) < 0 ? a.x + P : a.x; }
-    friend LinkModInt operator*(LinkModInt a, LinkModInt b) { return MulType(a.x) * b.x % P; }
-    friend LinkModInt &operator+=(LinkModInt &a, LinkModInt b) { return (a.x += b.x) >= P ? a.x -= P, a : a; }
-    friend LinkModInt &operator-=(LinkModInt &a, LinkModInt b) { return (a.x -= b.x) < 0 ? a.x += P, a : a; }
-    friend LinkModInt &operator*=(LinkModInt &a, LinkModInt b) { return a.x = MulType(a.x) * b.x % P, a; }
-    template <typename ExpType>
-    LinkModInt pow(ExpType Exp) const { LinkModInt Base(*this), Ret(Exp & 1 ? Base : LinkModInt(1));
-                                    while (Exp >>= 1) if (Base *= Base, Exp & 1) Ret *= Base; return Ret; }
-    template <typename ExpType>
-    LinkModInt &pows(ExpType Exp) { return *this = pow(Exp); }
+    friend LinkModInt operator+(LinkModInt a, const LinkModInt b) { return (a.x += b.x) >= P ? a.x - P : a.x; }
+    friend LinkModInt operator-(LinkModInt a, const LinkModInt b) { return (a.x -= b.x) < 0 ? a.x + P : a.x; }
+    friend LinkModInt operator*(LinkModInt a, const LinkModInt b) { return MulType(a.x) * b.x % P; }
+    friend LinkModInt &operator+=(LinkModInt &a, const LinkModInt b) { return (a.x += b.x) >= P ? a.x -= P, a : a; }
+    friend LinkModInt &operator-=(LinkModInt &a, const LinkModInt b) { return (a.x -= b.x) < 0 ? a.x += P, a : a; }
+    friend LinkModInt &operator*=(LinkModInt &a, const LinkModInt b) { return a.x = MulType(a.x) * b.x % P, a; }
+    template <typename ExpType> LinkModInt pow(ExpType exp) const { 
+        LinkModInt base(*this), ans(exp & 1 ? base : LinkModInt(1));
+        while (exp >>= 1) if (base *= base, exp & 1) ans *= base; return ans;
+    }
+    template <typename ExpType> LinkModInt &pows(ExpType exp) { return *this = pow(exp); }
+    template <typename ExpType> friend LinkModInt pow(const LinkModInt x, ExpType exp) { return x.pow(exp); }
+    template <typename ExpType> friend LinkModInt &pows(LinkModInt &x, ExpType exp) { return x.pows(exp); }
     LinkModInt inv() const { return pow(P - 2); }
     LinkModInt &invs() { return pows(P - 2); }
+    friend LinkModInt inv(const LinkModInt x) { return x.inv(); }
+    friend LinkModInt &invs(LinkModInt &x) { return x.invs(); }
     friend LinkModInt operator~(const LinkModInt x) { return x.inv(); }
-    friend LinkModInt operator/(LinkModInt a, LinkModInt b) { return a * ~b; }
-    friend LinkModInt &operator/=(LinkModInt &a, LinkModInt b) { return a *= ~b; }
+    friend LinkModInt operator/(LinkModInt a, const LinkModInt b) { return a * ~b; }
+    friend LinkModInt &operator/=(LinkModInt &a, const LinkModInt b) { return a *= ~b; }
     friend LinkModInt &operator++(LinkModInt &a) { return a += 1; }
     friend LinkModInt &operator--(LinkModInt &a) { return a -= 1; }
     friend LinkModInt operator++(LinkModInt &a, int) { LinkModInt Tmp = a; return a += 1, Tmp; }
