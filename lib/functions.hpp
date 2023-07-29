@@ -17,25 +17,25 @@ struct ScopeResolution;
 // Suffix increase (II, Left to Right)
 template <typename Type1>
 struct SuffixIncrease {
-    auto operator()(Type1 &x) { return x++; }
+    decltype(auto) operator()(Type1 x) { return x++; }
 };
 
 // Suffix decrease (II, Left to Right)
 template <typename Type1>
 struct SuffixDecrease {
-    auto operator()(Type1 &x) { return x--; }
+    decltype(auto) operator()(Type1 x) { return x--; }
 };
 
 // Function cast (II, Left to Right)
 template <typename Type, typename... Args>
 struct FunctionCast {
-    auto operator()(Args... args) { return Type(args...); }
+    decltype(auto) operator()(Args... args) { return Type(args...); }
 };
 
 // Function call (II, Left to Right)
 template <typename Type, typename... Args>
 struct FunctionCall {
-    auto operator()(Type func, Args... args) { return func(args...); }
+    decltype(auto) operator()(Type func, Args... args) { return func(args...); }
 };
 
 # if __cpp_multidimensional_subscript >= 202110L
@@ -43,7 +43,7 @@ struct FunctionCall {
 // Subscript (II, Left to Right)
 template <typename Type, typename... Args>
 struct Subscript {
-    auto operator()(Type array, Args... args) { return array[args...]; }
+    decltype(auto) operator()(Type array, Args... args) { return array[args...]; }
 };
 
 # else
@@ -51,7 +51,7 @@ struct Subscript {
 // Subscript (II, Left to Right)
 template <typename Type, typename... Args>
 struct Subscript {
-    auto operator()(Type array, Args... args) { return array[{args...}]; }
+    decltype(auto) operator()(Type array, Args... args) { return array[{args...}]; }
 };
 
 # endif
@@ -59,7 +59,7 @@ struct Subscript {
 // Subscript (II, Left to Right)
 template <typename Type, typename Arg>
 struct Subscript<Type, Arg> {
-    auto operator()(Type array, Arg arg) { return array[arg]; }
+    decltype(auto) operator()(Type array, Arg arg) { return array[arg]; }
 };
 
 // Member access (II, Left to Right) (can't implement)
@@ -83,43 +83,43 @@ struct PrefixDecrease {
 // Unary plus (III, Right to Left)
 template <typename Type>
 struct UnaryPlus {
-    auto operator()(Type x) { return +x; }
+    decltype(auto) operator()(Type x) { return +x; }
 };
 
 // Unary minus (III, Right to Left)
 template <typename Type>
 struct UnaryMinus {
-    auto operator()(Type x) { return -x; }
+    decltype(auto) operator()(Type x) { return -x; }
 };
 
 // Logical NOT (III, Right to Left)
 template <typename Type>
 struct LogicalNOT {
-    auto operator()(Type x) { return !x; }
+    decltype(auto) operator()(Type x) { return !x; }
 };
 
 // Bitwise NOT (III, Right to Left)
 template <typename Type>
 struct BitwiseNOT {
-    auto operator()(Type x) { return ~x; }
+    decltype(auto) operator()(Type x) { return ~x; }
 };
 
 // C-Style Cast (III, Right to Left)
 template <typename Type, typename TypeR>
 struct CStyleCast {
-    auto operator()(TypeR x) { return (Type)x; }
+    decltype(auto) operator()(TypeR x) { return (Type)x; }
 };
 
 // Dereference (Force &) (III, Right to Left)
 template <typename Type>
 struct Dereference {
-    auto &operator()(Type x) { return *x; }
+    decltype(auto) operator()(Type x) { return *x; }
 };
 
 // Address of (III, Right to Left)
 template <typename Type>
 struct Addressof {
-    auto operator()(Type x) { return &x; }
+    decltype(auto) operator()(Type x) { return &x; }
 };
 
 // Size of (III, Right to Left) (Unnecessary implement)
@@ -150,19 +150,19 @@ struct PointertoMember;
 // Multiply (V, Left to Right)
 template <typename Type1, typename Type2>
 struct Multiply {
-    auto operator()(Type1 x, Type2 y) { return x * y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x * y; }
 };
 
 // Divide (V, Left to Right)
 template <typename Type1, typename Type2>
 struct Divide {
-    auto operator()(Type1 x, Type2 y) { return x / y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x / y; }
 };
 
 // Module (V, Left to Right)
 template <typename Type1, typename Type2>
 struct Module {
-    auto operator()(Type1 x, Type2 y) { return x % y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x % y; }
 };
 
 
@@ -171,13 +171,13 @@ struct Module {
 // Plus (VI, Left to Right)
 template <typename Type1, typename Type2>
 struct Plus {
-    auto operator()(Type1 x, Type2 y) { return x + y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x + y; }
 };
 
 // Minus (VI, Left to Right)
 template <typename Type1, typename Type2>
 struct Minus {
-    auto operator()(Type1 x, Type2 y) { return x - y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x - y; }
 };
 
 
@@ -186,13 +186,13 @@ struct Minus {
 // (Bitwise) Left shift (VII, Left to Right)
 template <typename Type1, typename Type2>
 struct LeftShift {
-    auto operator()(Type1 x, Type2 y) { return x << y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x << y; }
 };
 
 // (Bitwise) Right shift (VII, Left to Right)
 template <typename Type1, typename Type2>
 struct RightShift {
-    auto operator()(Type1 x, Type2 y) { return x >> y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x >> y; }
 };
 
 
@@ -203,7 +203,7 @@ struct RightShift {
 // Three-way compare (VIII, Left to Right)
 template <typename Type1, typename Type2>
 struct ThreewayCompare {
-    auto operator()(Type1 x, Type2 y) { return x <=> y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x <=> y; }
 };
 
 # endif
@@ -214,25 +214,25 @@ struct ThreewayCompare {
 // Less than (IX, Left to Right)
 template <typename Type1, typename Type2>
 struct Less {
-    auto operator()(Type1 x, Type2 y) { return x < y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x < y; }
 };
 
 // Less than or equal to (IX, Left to Right)
 template <typename Type1, typename Type2>
 struct LessEqual {
-    auto operator()(Type1 x, Type2 y) { return x <= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x <= y; }
 };
 
 // Greater than (IX, Left to Right)
 template <typename Type1, typename Type2>
 struct Greater {
-    auto operator()(Type1 x, Type2 y) { return x > y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x > y; }
 };
 
 // Greater than or equal to (IX, Left to Right)
 template <typename Type1, typename Type2>
 struct GreaterEqual {
-    auto operator()(Type1 x, Type2 y) { return x >= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x >= y; }
 };
 
 
@@ -241,13 +241,13 @@ struct GreaterEqual {
 // Equal (X, Left to Right)
 template <typename Type1, typename Type2>
 struct Equal {
-    auto operator()(Type1 x, Type2 y) { return x == y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x == y; }
 };
 
 // Not equal (X, Left to Right)
 template <typename Type1, typename Type2>
 struct NotEqual {
-    auto operator()(Type1 x, Type2 y) { return x != y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x != y; }
 };
 
 
@@ -256,7 +256,7 @@ struct NotEqual {
 // Bitwise AND (XI, Left to Right)
 template <typename Type1, typename Type2>
 struct BitwiseAND {
-    auto operator()(Type1 x, Type2 y) { return x & y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x & y; }
 };
 
 
@@ -265,7 +265,7 @@ struct BitwiseAND {
 // Bitwise XOR (XII, Left to Right)
 template <typename Type1, typename Type2>
 struct BitwiseXOR {
-    auto operator()(Type1 x, Type2 y) { return x ^ y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x ^ y; }
 };
 
 
@@ -274,7 +274,7 @@ struct BitwiseXOR {
 // Bitwise OR (XIII, Left to Right)
 template <typename Type1, typename Type2>
 struct BitwiseOR {
-    auto operator()(Type1 x, Type2 y) { return x | y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x | y; }
 };
 
 
@@ -283,7 +283,7 @@ struct BitwiseOR {
 // Logical AND (XIV, Left to Right)
 template <typename Type1, typename Type2>
 struct LogicalAND {
-    auto operator()(Type1 x, Type2 y) { return x && y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x && y; }
 };
 
 
@@ -292,7 +292,7 @@ struct LogicalAND {
 // Logical OR (XV, Left to Right)
 template <typename Type1, typename Type2>
 struct LogicalOR {
-    auto operator()(Type1 x, Type2 y) { return x || y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x || y; }
 };
 
 
@@ -314,67 +314,67 @@ struct CoYield;
 // Assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct Assign {
-    auto &operator()(Type1 &x, Type2 y) { return x = y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x = y; }
 };
 
 // Plus assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct PlusAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x += y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x += y; }
 };
 
 // Minus assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct MinusAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x -= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x -= y; }
 };
 
 // Multiply assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct MultiplyAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x *= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x *= y; }
 };
 
 // Divide assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct DivideAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x /= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x /= y; }
 };
 
 // Module assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct ModuleAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x %= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x %= y; }
 };
 
 // (Bitwise) Left shift assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct LeftShiftAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x <<= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x <<= y; }
 };
 
 // (Bitwise) Right shift assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct RightShiftAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x >>= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x >>= y; }
 };
 
 // Bitwise AND assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct BitwiseANDAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x &= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x &= y; }
 };
 
 // Bitwise XOR assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct BitwiseORAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x |= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x |= y; }
 };
 
 // Bitwise OR assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct BitwiseXORAssign {
-    auto &operator()(Type1 &x, Type2 y) { return x ^= y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x ^= y; }
 };
 
 
@@ -383,7 +383,7 @@ struct BitwiseXORAssign {
 // Comma (XVII, Left to Right)
 template <typename Type1, typename Type2>
 struct Comma {
-    auto operator()(Type1 x, Type2 y) { return x, y; }
+    decltype(auto) operator()(Type1 x, Type2 y) { return x, y; }
 };
 
 }  // namespace StK
