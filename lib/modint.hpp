@@ -8,7 +8,7 @@ class ModInt {
    public:
     typedef Type ModType;
     
-    static constexpr Type mod = P;
+    static constexpr Type MOD = P;
 
    protected:
     Type x;
@@ -23,45 +23,48 @@ class ModInt {
         ModInt &replace(ProType a) { return data.replace(a); }
     };
     
-    ModInt() : x(0) {}
-    ModInt(Type c) : x(c) {}
-    explicit operator Type() const { return x; }
-    explicit operator bool() const { return x != 0; }
-    bool operator!() const { return x == 0; }
-    Type &data() { return x; }
+    constexpr ModInt() : x(0) {}
+    constexpr ModInt(Type c) : x(c) {}
+    explicit constexpr operator Type() const { return x; }
+    explicit constexpr operator bool() const { return x != 0; }
+    constexpr bool operator!() const { return x == 0; }
+    constexpr Type &data() { return x; }
+    constexpr const Type data() const { return x; }
     template <typename ProType>
-    ModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
+    constexpr ModInt &replace(ProType a) { return x = (a %= P) < 0 ? a + P : a, *this; }
     template <typename ProType = Type>
-    Protected<ProType> protect() { return *this; }
-    friend ModInt operator+(ModInt a, const ModInt b) { return (a.x += b.x) >= P ? a.x - P : a.x; }
-    friend ModInt operator-(ModInt a, const ModInt b) { return (a.x -= b.x) < 0 ? a.x + P : a.x; }
-    friend ModInt operator*(ModInt a, const ModInt b) { return MulType(a.x) * b.x % P; }
-    friend ModInt &operator+=(ModInt &a, const ModInt b) { return (a.x += b.x) >= P ? a.x -= P, a : a; }
-    friend ModInt &operator-=(ModInt &a, const ModInt b) { return (a.x -= b.x) < 0 ? a.x += P, a : a; }
-    friend ModInt &operator*=(ModInt &a, const ModInt b) { return a.x = MulType(a.x) * b.x % P, a; }
-    template <typename ExpType> ModInt pow(ExpType exp) const { 
+    Protected<ProType> protect() const { return *this; }
+    friend constexpr ModInt operator+(ModInt a, const ModInt b) { return (a.x += b.x) >= P ? a.x - P : a.x; }
+    friend constexpr ModInt operator-(ModInt a, const ModInt b) { return (a.x -= b.x) < 0 ? a.x + P : a.x; }
+    friend constexpr ModInt operator*(ModInt a, const ModInt b) { return MulType(a.x) * b.x % P; }
+    constexpr ModInt &operator+=(const ModInt b) { return (x += b.x) >= P ? x -= P, *this : *this; }
+    constexpr ModInt &operator-=(const ModInt b) { return (x -= b.x) < 0 ? x += P, *this : *this; }
+    constexpr ModInt &operator*=(const ModInt b) { return x = MulType(x) * b.x % P, *this; }
+    template <typename ExpType> constexpr ModInt pow(ExpType exp) const { 
         ModInt base(*this), ans(exp & 1 ? base : ModInt(1));
         while (exp >>= 1) if (base *= base, exp & 1) ans *= base; return ans;
     }
-    template <typename ExpType> ModInt &pows(ExpType exp) { return *this = pow(exp); }
-    template <typename ExpType> friend ModInt pow(const ModInt x, ExpType exp) { return x.pow(exp); }
-    template <typename ExpType> friend ModInt &pows(ModInt &x, ExpType exp) { return x.pows(exp); }
-    ModInt inv() const { return pow(P - 2); }
-    ModInt &invs() { return pows(P - 2); }
-    friend ModInt inv(const ModInt x) { return x.inv(); }
-    friend ModInt &invs(ModInt &x) { return x.invs(); }
-    friend ModInt operator~(const ModInt x) { return x.inv(); }
-    friend ModInt operator/(ModInt a, const ModInt b) { return a * ~b; }
-    friend ModInt &operator/=(ModInt &a, const ModInt b) { return a *= ~b; }
-    friend ModInt &operator++(ModInt &a) { return a += 1; }
-    friend ModInt &operator--(ModInt &a) { return a -= 1; }
-    friend ModInt operator++(ModInt &a, int) { ModInt Tmp = a; return a += 1, Tmp; }
-    friend ModInt operator--(ModInt &a, int) { ModInt Tmp = a; return a -= 1, Tmp; }
-    friend ModInt operator+(const ModInt a) { return a; }
-    friend ModInt operator-(const ModInt a) { return 0 - a; }
-    bool operator==(const ModInt a) const { return x == Type(a); }
-    bool operator!=(const ModInt a) const { return x != Type(a); }
-    friend bool operator<(const ModInt a, const ModInt b) { return a.x < b.x; }
+    template <typename ExpType> constexpr ModInt &pows(ExpType exp) { return *this = pow(exp); }
+    constexpr ModInt inv() const { return pow(P - 2); }
+    constexpr ModInt operator~() const { return inv(); }
+    constexpr ModInt &invs() { return pows(P - 2); }
+    friend constexpr ModInt operator/(ModInt a, const ModInt b) { return a * ~b; }
+    constexpr ModInt &operator/=(const ModInt b) { return operator*=(~b); }
+    constexpr ModInt &operator++() { return operator+=(1); }
+    constexpr ModInt &operator--() { return operator-=(1); }
+    constexpr ModInt operator++(int) { ModInt Tmp = *this; return operator++(), Tmp; }
+    constexpr ModInt operator--(int) { ModInt Tmp = *this; return operator--(), Tmp; }
+    constexpr ModInt operator+() const { return *this; }
+    constexpr ModInt operator-() const { return ModInt(0) - *this; }
+    constexpr bool operator==(const ModInt a) const { return x == Type(a); }
+    constexpr bool operator!=(const ModInt a) const { return x != Type(a); }
+    friend constexpr bool operator<(const ModInt a, const ModInt b) { return a.x < b.x; }
+    friend constexpr bool operator>(const ModInt a, const ModInt b) { return a.x > b.x; }
+    friend constexpr bool operator<=(const ModInt a, const ModInt b) { return a.x <= b.x; }
+    friend constexpr bool operator>=(const ModInt a, const ModInt b) { return a.x >= b.x; }
+# if __cpp_impl_three_way_comparison >= 201907L
+    friend constexpr Type operator<=>(const ModInt a, const ModInt b) { return a.x - b.x; }
+# endif
 
 # ifdef _GLIBCXX_ISTREAM
 
