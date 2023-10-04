@@ -6,7 +6,7 @@ namespace StK {
 template <typename Type, Type P, typename MulType = Type>
 class ModInt {
    public:
-    typedef Type ModType;
+    typedef Type DataType;
     
     static constexpr Type MOD = P;
 
