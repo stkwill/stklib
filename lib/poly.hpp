@@ -13,6 +13,8 @@
 
 namespace StK {
 
+constexpr size_t lower_pow2(size_t x) { return x <= 1 ? 1 : 1 << std::__lg(x - 1) + 1; }
+
 class BitReverse {
 
    public:
@@ -176,7 +178,7 @@ class ModuleSpace {
 
         friend Poly &operator*=(Poly &a, Poly b) {
             if (a.empty() || b.empty()) return a = Poly();
-            size_t na = a.size(), nb = b.size(), nc = na + nb - 1, n = 1 << std::__lg(nc - 1) + 1;
+            size_t na = a.size(), nb = b.size(), nc = na + nb - 1, n = lower_pow2(nc);
             a.resizes(n).NTTs();
             b.resizes(n).NTTs();
             for (size_t i = 0; i < n; ++i) a[i] *= b[i];
@@ -187,7 +189,7 @@ class ModuleSpace {
 
         // sqr self
         Poly &sqrs() {
-            size_t na = self.size(), nb = na, nc = na + nb - 1, n = 1 << std::__lg(nc - 1) + 1;
+            size_t na = self.size(), nb = na, nc = na + nb - 1, n = lower_pow2(nc);
             self.resizes(n).NTTs();
             for (size_t i = 0; i < n; ++i) self[i] *= self[i];
             return self.INTTs().resizes(nc);
@@ -202,7 +204,7 @@ class ModuleSpace {
             if (n == 1) return self[0].invs(), self;
             assert(n > 0);
             size_t m = n + 1 >> 1;
-            size_t max_n = 1 << std::__lg(m + m - 1 + n - 1 - 1) + 1;
+            size_t max_n = lower_pow2(m + m - 1 + n - 1);
             Poly a(self.begin(), self.begin() + m);
             a.invs().resizes(max_n).NTTs();
             self.resizes(max_n).NTTs();
@@ -268,5 +270,7 @@ class ModuleSpace {
 };
 
 }  // namespace StK
+
+#undef self
 
 #endif
