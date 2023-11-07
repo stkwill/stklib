@@ -66,6 +66,20 @@ Type ex_gcd(Type a, Type b, Type &x, Type &y) {
     return d;
 }
 
+template <typename Type>
+constexpr Type phi(Type x) {
+    Type ans = 1;
+    for (Type i = 2; i * i <= x; ++i) {
+        if (x % i == 0) {
+            x /= i;
+            ans *= i - 1;
+            while (x % i == 0) x /= i, ans *= i;
+        }
+    }
+    if (x > 1) ans *= x - 1;
+    return ans;
+}
+
 };
 
 #endif
