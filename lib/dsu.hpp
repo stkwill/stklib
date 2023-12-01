@@ -3,6 +3,7 @@
 
 # include <cstddef>
 # include <vector>
+# include <numeric>
 
 namespace StK {
 
