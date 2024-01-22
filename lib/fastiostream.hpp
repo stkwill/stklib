@@ -1,11 +1,11 @@
-#ifndef FASTIOSTREAM_HPP
-#define FASTIOSTREAM_HPP
+#ifndef _STKLIB_FASTIOSTREAM_HPP
+# define _STKLIB_FASTIOSTREAM_HPP
 
-#include <cstdio>
-#include <cctype>
-#include <limits>
-#include <type_traits>
-#include <string>
+# include <cstdio>
+# include <cctype>
+# include <limits>
+# include <type_traits>
+# include <string>
 
 namespace StK {
 
@@ -77,14 +77,14 @@ class FastOFStream : public BasicFastFStream {
         return *this;
     }
 
-#ifdef _GLIBCXX_STRING
+# ifdef _GLIBCXX_STRING
     
     FastOFStream &operator<<(const std::string s) {
         for (auto ch : s) __I_putchar(ch);
         return *this;
     }
 
-#endif
+# endif
 
     template <typename Type, typename std::enable_if_t<std::numeric_limits<Type>::is_signed, int> = 0>
     FastOFStream &operator<<(const Type &x) {
@@ -154,7 +154,7 @@ class FastIFStream : public BasicFastFStream {
         return *this;
     }
 
-#ifdef _GLIBCXX_STRING
+# ifdef _GLIBCXX_STRING
 
     FastIFStream &operator>>(std::string &s) {
         while (std::isspace(__I_getchar()));
@@ -162,14 +162,14 @@ class FastIFStream : public BasicFastFStream {
         return *this;
     }
 
-#endif
+# endif
     
     template <typename Type, typename std::enable_if_t<std::numeric_limits<Type>::is_integer, int> = 0>
     FastIFStream &operator>>(Type &x) {
         int ch, f = 0;
-        while (std::isspace(ch = getchar())) f = ch == '-';
+        while (std::isspace(ch = __I_getchar())) f = ch == '-';
         x = ch ^ '0';
-        while (std::isdigit(ch = getchar())) x = (x << 3) + (x << 1) + (ch ^ '0');
+        while (std::isdigit(ch = __I_getchar())) x = (x << 3) + (x << 1) + (ch ^ '0');
         x = f ? -x : x;
         return *this;
     }
