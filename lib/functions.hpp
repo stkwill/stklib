@@ -365,13 +365,13 @@ struct BitwiseANDAssign {
     decltype(auto) operator()(Type1 x, Type2 y) { return x &= y; }
 };
 
-// Bitwise XOR assign (Force &) (XVI, Right to Left)
+// Bitwise OR assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct BitwiseORAssign {
     decltype(auto) operator()(Type1 x, Type2 y) { return x |= y; }
 };
 
-// Bitwise OR assign (Force &) (XVI, Right to Left)
+// Bitwise XOR assign (Force &) (XVI, Right to Left)
 template <typename Type1, typename Type2>
 struct BitwiseXORAssign {
     decltype(auto) operator()(Type1 x, Type2 y) { return x ^= y; }
